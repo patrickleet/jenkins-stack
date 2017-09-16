@@ -1,0 +1,51 @@
+version: '3.2'
+
+services:
+
+  master:
+    image: vfarcic/jenkins
+    ports:
+      - 50000:50000
+    networks:
+      - proxy
+      - jenkins
+    volumes:
+      - jenkins:/var/jenkins_home
+    deploy:
+      labels:
+        - com.df.notify=true
+        - com.df.distribute=true
+        - com.df.serviceDomain=${JENKINS_DOMAIN:-locahost}
+        - com.df.port=8080
+        - com.df.letsencrypt.host=${JENKINS_DOMAIN}
+        - com.df.letsencrypt.email=patrick.scott@zxlerator.com
+      placement:
+        constraints: 
+          - node.labels.for == jenkins-master
+    extra_hosts:
+      - "${SLACK_HOST:-${SLACK_SUBDOMAIN}.slack.com}:${SLACK_IP:-54.192.78.227}"
+    secrets:
+      - jenkins-user
+      - jenkins-pass
+
+volumes:
+
+  jenkins:
+    driver: cloudstor:aws
+    external: false
+
+networks:
+
+  proxy:
+    external: true
+
+  jenkins:
+    external: true
+
+secrets:
+
+  jenkins-user:
+    external: true
+    
+  jenkins-pass:
+    external: true

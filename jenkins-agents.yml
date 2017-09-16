@@ -1,0 +1,37 @@
+version: '3.2'
+
+services:
+
+  agent:
+    image: vfarcic/jenkins-swarm-agent
+    environment:
+      - USER_NAME_SECRET=/run/secrets/${JENKINS_USER_SECRET:-github-user}
+      - PASSWORD_SECRET=/run/secrets/${JENKINS_PASS_SECRET:-github-token}
+      - COMMAND_OPTIONS=-master http://${JENKINS_IP:-master}:8080/ -labels 'ubuntu-docker' -executors 2
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /workspace:/workspace
+    secrets:
+      - github-user
+      - github-token
+    networks:
+      - jenkins
+    deploy:
+      mode: global
+      placement:
+        constraints: 
+          - node.labels.for == jenkins-agent
+          - node.labels.agent == ubuntu-docker
+
+networks:
+
+  jenkins:
+    external: true
+
+secrets:
+
+  github-user:
+    external: true
+    
+  github-token:
+    external: true
