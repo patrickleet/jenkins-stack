@@ -28,7 +28,7 @@ services:
         limits:
           memory: 200M
     extra_hosts:
-      - "${SLACK_HOST:-${SLACK_SUBDOMAIN}.slack.com}:${SLACK_IP:-54.192.78.227}"
+      - "${SLACK_SUBDOMAIN}.slack.com:${SLACK_IP:-54.192.78.227}"
     secrets:
       - jenkins-user
       - jenkins-pass
