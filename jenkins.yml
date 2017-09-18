@@ -24,9 +24,9 @@ services:
           - node.role == worker
       resources:
         reservations:
-          memory: 100M
+          memory: 256M
         limits:
-          memory: 200M
+          memory: 512M
     extra_hosts:
       - "${SLACK_SUBDOMAIN}.slack.com:${SLACK_IP:-54.192.78.227}"
     secrets:
