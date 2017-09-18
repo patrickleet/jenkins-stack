@@ -22,11 +22,11 @@ services:
       placement:
         constraints: 
           - node.role == worker
-        resources:
-          reservations:
-            memory: 100M
-          limits:
-            memory: 200M
+      resources:
+        reservations:
+          memory: 100M
+        limits:
+          memory: 200M
     extra_hosts:
       - "${SLACK_HOST:-${SLACK_SUBDOMAIN}.slack.com}:${SLACK_IP:-54.192.78.227}"
     secrets:
