@@ -18,10 +18,15 @@ services:
         - com.df.serviceDomain=${JENKINS_DOMAIN:-locahost}
         - com.df.port=8080
         - com.df.letsencrypt.host=${JENKINS_DOMAIN}
-        - com.df.letsencrypt.email=patrick.scott@zxlerator.com
+        - com.df.letsencrypt.email=pat@patscott.io
       placement:
         constraints: 
-          - node.labels.for == jenkins-master
+          - node.role == worker
+        resources:
+          reservations:
+            memory: 100M
+          limits:
+            memory: 200M
     extra_hosts:
       - "${SLACK_HOST:-${SLACK_SUBDOMAIN}.slack.com}:${SLACK_IP:-54.192.78.227}"
     secrets:
