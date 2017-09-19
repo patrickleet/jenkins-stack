@@ -22,11 +22,6 @@ services:
       placement:
         constraints: 
           - node.role == worker
-      resources:
-        reservations:
-          memory: 256M
-        limits:
-          memory: 512M
     extra_hosts:
       - "${SLACK_SUBDOMAIN}.slack.com:${SLACK_IP:-54.192.78.227}"
     secrets:
