@@ -4,6 +4,7 @@ services:
 
   agent:
     image: vfarcic/jenkins-swarm-agent
+    privileged: true
     environment:
       - USER_NAME_SECRET=/run/secrets/${JENKINS_USER_SECRET:-github-user}
       - PASSWORD_SECRET=/run/secrets/${JENKINS_PASS_SECRET:-github-token}
