@@ -4,14 +4,13 @@ services:
 
   agent:
     image: vfarcic/jenkins-swarm-agent
-    privileged: true
     environment:
       - USER_NAME_SECRET=/run/secrets/${JENKINS_USER_SECRET:-github-user}
       - PASSWORD_SECRET=/run/secrets/${JENKINS_PASS_SECRET:-github-token}
       - COMMAND_OPTIONS=-master http://${JENKINS_IP:-master}:8080/ -labels 'docker' -executors 4
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - workspace:/workspace
+      - /workspace:/workspace
     secrets:
       - github-user
       - github-token
@@ -31,12 +30,6 @@ networks:
 
   jenkins:
     external: true
-
-volumes:
-
-  workspace:
-    driver: cloudstor:aws
-    external: false
 
 secrets:
 
