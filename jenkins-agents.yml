@@ -12,8 +12,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /workspace:/workspace
     secrets:
-      - github-user
-      - github-token
+      - jenkins-user
+      - jenkins-token
     networks:
       - jenkins
     deploy:
