@@ -7,7 +7,7 @@ services:
     environment:
       - USER_NAME_SECRET=/run/secrets/${JENKINS_USER_SECRET:-jenkins-user}
       - PASSWORD_SECRET=/run/secrets/${JENKINS_PASS_SECRET:-jenkins-pass}
-      - COMMAND_OPTIONS=-master http://${JENKINS_IP:-master}:8080/ -labels 'docker' -executors 4
+      - COMMAND_OPTIONS=-master http://${JENKINS_IP:-master}:8080/ -labels 'prod' -executors 2
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /workspace:/workspace
