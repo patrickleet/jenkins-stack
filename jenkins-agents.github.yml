@@ -2,30 +2,6 @@ version: '3.3'
 
 services:
 
-  legacy:
-    image: vfarcic/jenkins-swarm-agent
-    environment:
-      - USER_NAME_SECRET=/run/secrets/${GITHUB_USER_SECRET:-github-user}
-      - PASSWORD_SECRET=/run/secrets/${GITHUB_TOKEN_SECRET:-github-token}
-      - COMMAND_OPTIONS=-master http://${JENKINS_IP:-master}:8080/ -labels 'docker' -executors 2
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /workspace:/workspace
-    secrets:
-      - github-user
-      - github-token
-    networks:
-      - jenkins
-    deploy:
-      placement:
-        constraints: 
-          - node.role == manager
-      resources:
-        reservations:
-          memory: 1G
-        limits:
-          memory: 2G
-
   prod:
     image: vfarcic/jenkins-swarm-agent
     environment:
