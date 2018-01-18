@@ -1,9 +1,9 @@
-version: '3.2'
+version: '3.3'
 
 services:
 
   master:
-    image: vfarcic/jenkins
+    image: vfarcic/jenkins:${JENKINS_TAG:-18.01.18-40}
     ports:
       - 50000:50000
     networks:
@@ -11,6 +11,9 @@ services:
       - jenkins
     volumes:
       - jenkins:/var/jenkins_home
+    environment:
+      - JAVA_OPTS="-Xmx4g"
+      - LOGSPOUT=ignore
     deploy:
       labels:
         - com.df.notify=true
@@ -18,12 +21,17 @@ services:
         - com.df.serviceDomain=${JENKINS_DOMAIN:-locahost}
         - com.df.port=8080
         - com.df.letsencrypt.host=${JENKINS_DOMAIN}
-        - com.df.letsencrypt.email=pat@patscott.io
+        - com.df.letsencrypt.email=${LETS_ENCRYPT_EMAIL}
       placement:
         constraints: 
           - node.role == worker
+      resources:
+        reservations:
+          memory: 7G
+        limits:
+          memory: 7G
     extra_hosts:
-      - "${SLACK_SUBDOMAIN}.slack.com:${SLACK_IP:-54.192.78.227}"
+      - "${SLACK_SUBDOMAIN}.slack.com:${SLACK_IP}"
     secrets:
       - jenkins-user
       - jenkins-pass

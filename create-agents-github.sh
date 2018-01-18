@@ -1,0 +1,1 @@
+docker stack deploy -c jenkins-agents.github.yml jenkins-agents
